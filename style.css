@@ -313,6 +313,28 @@
 
 .btn-danger:hover { background: #1c1010; }
 
+.btn-pronunciation {
+  background: linear-gradient(135deg, #f5c842 0%, #ffd44d 100%);
+  color: #0a0a0f;
+  flex: none;
+  padding: 0.75rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-pronunciation:hover {
+  background: linear-gradient(135deg, #ffd44d 0%, #ffe66d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(245, 200, 66, 0.2);
+}
+
+.btn-pronunciation:active {
+  transform: translateY(0);
+}
+
 .btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;

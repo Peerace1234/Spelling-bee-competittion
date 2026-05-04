@@ -352,6 +352,21 @@ function renderWord() {
     <div class="word-definition">"${w.def}"</div>
     <div class="word-origin">Etymology: ${w.origin}</div>
   `;
+  getEl("pronounceSection").style.display = "block";
+}
+
+function pronounceWord() {
+  if (!state.currentWord) return;
+
+  // Cancel any ongoing speech
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(state.currentWord.word);
+  utterance.rate = 0.8; // Slightly slower for clarity
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  speechSynthesis.speak(utterance);
 }
 
 const circumference = 2 * Math.PI * 52;
@@ -503,6 +518,7 @@ function resetAll() {
   getEl("timerSection").style.display = "none";
   getEl("voiceSection").style.display = "none";
   getEl("typeSection").style.display = "none";
+  getEl("pronounceSection").style.display = "none";
   getEl("resultBanner").className = "result-banner";
   getEl("resultBanner").style.display = "none";
   getEl("startBtn").textContent = "Start Round";
@@ -540,6 +556,8 @@ function switchTab(name) {
 getEl("startBtn").addEventListener("click", startRound);
 getEl("skipBtn").addEventListener("click", skipWord);
 getEl("resetBtn").addEventListener("click", resetAll);
+
+getEl("pronounceBtn").addEventListener("click", pronounceWord);
 
 getEl("voiceBtn").addEventListener("click", () => {
   if (state.phase !== "active") return;
