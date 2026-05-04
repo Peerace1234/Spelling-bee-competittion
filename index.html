@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spelling Bee Competition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="confetti-container" id="confettiContainer"></div>
+
+  <div class="bee-app">
+    <div class="header">
+      <span class="bee-icon">🐝</span>
+      <h1>Spelling Bee</h1>
+      <p>Competition Mode</p>
+    </div>
+
+    <div class="card">
+
+      <div class="scoreboard">
+        <div class="score-card">
+          <div class="score-value" id="scoreCorrect">0</div>
+          <div class="score-label">Correct</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value" id="scoreStreak">0</div>
+          <div class="score-label">Streak</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value" id="scoreTotal">0</div>
+          <div class="score-label">Total</div>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div class="setting-group">
+          <label>⏱ Time</label>
+          <input type="number" id="timerSetting" value="30" min="5" max="120">
+          <span style="font-size:12px;color:#555">sec</span>
+        </div>
+        <div class="setting-group">
+          <label>📚 Level</label>
+          <select id="levelSelect" style="color:#f5c842;background:transparent;border:none;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label>🎙 Input</label>
+          <select id="inputMode" style="color:#f5c842;background:transparent;border:none;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;">
+            <option value="voice">Voice</option>
+            <option value="type">Type</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="noSupportWarning" class="no-support" style="display:none">
+        ⚠️ Voice recognition not supported in this browser. Switched to type mode.
+      </div>
+
+      <div class="word-display" id="wordDisplay">
+        <div class="idle-message">Press "Start Round" to begin</div>
+      </div>
+
+      <div id="timerSection" style="display:none">
+        <div class="timer-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="bg-ring" cx="60" cy="60" r="52"/>
+            <circle class="progress-ring" id="progressRing" cx="60" cy="60" r="52"
+              stroke-dasharray="326.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-center">
+            <div class="timer-number" id="timerDisplay">30</div>
+            <div class="timer-label">secs</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="voiceSection" style="display:none">
+        <div class="attempt-display">
+          <span class="attempt-label">Heard</span>
+          <span class="attempt-letters" id="attemptDisplay">—</span>
+          <span class="mic-indicator" id="micIndicator"></span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1rem;">
+          <button class="voice-btn" id="voiceBtn" title="Hold to speak">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <span style="font-size:12px;color:#555;text-align:center;line-height:1.4;">Click mic<br>and spell</span>
+        </div>
+      </div>
+
+      <div id="typeSection" style="display:none">
+        <div class="manual-input-row">
+          <input type="text" class="manual-input" id="manualInput" placeholder="TYPE SPELLING..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+          <button class="btn btn-primary" id="submitBtn" style="flex:0;white-space:nowrap;">Submit</button>
+        </div>
+      </div>
+
+      <div class="result-banner" id="resultBanner">
+        <div class="result-title" id="resultTitle"></div>
+        <div class="correct-spelling" id="resultSpelling"></div>
+        <div class="result-detail" id="resultDetail"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="startBtn">Start Round</button>
+        <button class="btn btn-secondary" id="skipBtn" disabled>Skip Word</button>
+        <button class="btn btn-danger" id="resetBtn">Reset</button>
+      </div>
+
+      <hr class="divider">
+
+      <div class="tab-bar">
+        <button class="tab active" onclick="switchTab('history')">History</button>
+        <button class="tab" onclick="switchTab('words')">Word List</button>
+      </div>
+
+      <div class="tab-content active" id="tab-history">
+        <div class="history-title">Round history</div>
+        <div class="history-list" id="historyList">
+          <div style="font-size:13px;color:#444;text-align:center;padding:1rem;">No history yet</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-words">
+        <div class="history-title">Word bank</div>
+        <div id="wordBankDisplay" style="font-size:12px;color:#555;line-height:2;font-family:'DM Mono',monospace;max-height:180px;overflow-y:auto;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
