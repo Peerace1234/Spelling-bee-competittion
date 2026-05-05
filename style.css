@@ -93,6 +93,7 @@
   width: 50px;
   outline: none;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .setting-group input::-webkit-outer-spin-button,
